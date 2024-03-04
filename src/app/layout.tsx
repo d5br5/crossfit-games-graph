@@ -1,8 +1,9 @@
-import { GeistSans } from "geist/font/sans";
 import "./globals.css";
+import { GeistSans } from "geist/font/sans";
 import Footer from "@/src/layouts/Footer";
 import Header from "@/src/layouts/header";
-import { ThemeProvider } from "../layouts/theme/Provider";
+import { ThemeProvider } from "@/src/layouts/theme/Provider";
+import { Toaster } from "@/src/components/ui/toaster";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -28,6 +29,7 @@ export default function RootLayout({
             {children}
             <Footer />
           </main>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
