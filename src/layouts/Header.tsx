@@ -1,5 +1,6 @@
 import AuthButton from "@/src/components/common/AuthButton";
 import Link from "next/link";
+import ThemeSwitch from "@/src/components/common/ThemeSwitch";
 const Header = () => {
   return (
     <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
@@ -8,6 +9,7 @@ const Header = () => {
           <div className="font-semibold text-lg">Crossfit Games Graph</div>
         </Link>
         <AuthButton />
+        <ThemeSwitch />
       </div>
     </nav>
   );
