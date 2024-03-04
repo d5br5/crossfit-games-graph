@@ -1,6 +1,5 @@
-import AuthButton from "@/src/components/AuthButton";
+import AuthButton from "@/src/components/common/AuthButton";
 import Link from "next/link";
-
 const Header = () => {
   return (
     <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
