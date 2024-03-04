@@ -1,6 +1,8 @@
-import AuthButton from "@/src/components/common/AuthButton";
 import Link from "next/link";
-import ThemeSwitch from "@/src/components/common/ThemeSwitch";
+
+import AuthButton from "@/src/layouts/header/AuthButton";
+import ThemeSwitch from "@/src/layouts/theme/Switch";
+
 const Header = () => {
   return (
     <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
@@ -8,8 +10,10 @@ const Header = () => {
         <Link href="/">
           <div className="font-semibold text-lg">Crossfit Games Graph</div>
         </Link>
-        <AuthButton />
-        <ThemeSwitch />
+        <div className="flex gap-2">
+          <AuthButton />
+          <ThemeSwitch />
+        </div>
       </div>
     </nav>
   );

@@ -1,8 +1,8 @@
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import Footer from "@/src/layouts/Footer";
-import Header from "@/src/layouts/Header";
-import { ThemeProvider } from "../layouts/Theme";
+import Header from "@/src/layouts/header";
+import { ThemeProvider } from "../layouts/theme/Provider";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
