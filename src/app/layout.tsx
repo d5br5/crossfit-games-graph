@@ -26,7 +26,7 @@ export default function RootLayout({
         <ThemeProvider>
           <main className="min-h-screen flex flex-col items-center prose dark:prose-invert max-w-none">
             <Header />
-            {children}
+            <div className="flex-1 w-full flex flex-col">{children}</div>
             <Footer />
           </main>
           <Toaster />
