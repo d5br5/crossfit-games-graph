@@ -7,26 +7,25 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { year, division, ordinal, filter } = body;
 
+  const tableName = "2024-OPEN-1-M";
+
   const firstAPIURL = getApiURL(year, division, 1);
   const data = await fetch(firstAPIURL).then((res) => res.json());
 
   const { totalPages, totalCompetitors } = data.pagination;
 
-  const result = [];
+  const scoreMap: { [key: number]: { count: number } } = {};
 
   try {
-    // delete all rows before refresh data
+    // 기존 데이터 삭제
     console.log("=== Start : Delete ===");
-    const { error } = await supabase
-      .from("2024-open-1")
-      .delete()
-      .neq("rank", -1);
+    const { error } = await supabase.from(tableName).delete().neq("rank", -1);
     if (error) console.log(error);
     console.log("=== Finish : Delete");
 
-    // fetch data from API
+    // crossfit API로 데이터 가져오기
     console.log("=== Start : Fetching ===");
-    for (let i = 1; i < 3; i++) {
+    for (let i = 1; i <= totalPages; i++) {
       if (i % 10 === 0) {
         console.log(`Fetching page ${i} of ${totalPages}`);
       }
@@ -38,22 +37,30 @@ export async function POST(request: Request) {
           (score: any) => score.ordinal === ordinal
         );
         const record = convertElem(score, filter);
-        result.push(record);
+        const { rank } = record;
+        if (scoreMap[rank]) {
+          scoreMap[rank].count += 1;
+        } else {
+          scoreMap[rank] = { count: 1, ...record };
+        }
       }
     }
     console.log("=== Finish : Fetching ===");
   } catch (e: any) {
+    console.log("returned by error");
     return NextResponse.json({ ok: false, error: e.message });
   }
 
-  // insert data to supabase
+  const dataList = Object.values(scoreMap);
+
+  // DB에 데이터 넣기
   console.log("=== Start : Insert into DB ===");
-  const { error } = await supabase.from("2024-open-1").insert(result);
+  const { error } = await supabase.from(tableName).insert(dataList);
   if (error) console.log(error);
   console.log("=== Finish : Insert into DB ===");
 
   return NextResponse.json({
     ok: true,
-    data: `For ${totalPages} pages / ${totalCompetitors} competitors - Data Updated : ${result.length} records`,
+    data: `For ${totalPages} pages / ${totalCompetitors} competitors.`,
   });
 }

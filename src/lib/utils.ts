@@ -1,4 +1,4 @@
-import { DATA_TYPE, apiBaseURL } from "./const";
+import { apiBaseURL } from "./const";
 
 export const getApiURL = (
   year: number,
@@ -10,7 +10,7 @@ export const getApiURL = (
 
 interface FilterItem {
   name: string;
-  type: string;
+  isNum?: boolean;
 }
 
 export const convertElem = (elem: any, filter: FilterItem[]) => {
@@ -18,7 +18,7 @@ export const convertElem = (elem: any, filter: FilterItem[]) => {
   filter.forEach((f) => {
     const key = f.name;
     let value = elem[key];
-    if (f.type === DATA_TYPE.NUM) {
+    if (f.isNum) {
       const numberdValue = Number(value);
       const isNumber = !isNaN(numberdValue);
       value = isNumber ? numberdValue : 0;
