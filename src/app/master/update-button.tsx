@@ -9,7 +9,7 @@ export const UpdateButton = () => {
   const fetchData = async () => {
     const payload = {
       year: 2024,
-      division: 1, // 1: M, 2: F
+      division: 2, // 1: M, 2: F
       ordinal: 1,
       filter: [
         { name: "rank", isNum: true },
@@ -32,7 +32,7 @@ export const UpdateButton = () => {
 
   return (
     <Button onClick={fetchData} disabled={isLoading}>
-      {isLoading ? "Loading..." : "Update"}
+      {isLoading ? "Fetching..." : "Update"}
     </Button>
   );
 };
