@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
-import { convertElem, getApiURL } from "@/src/lib/utils";
-import { createClient } from "@/utils/supabase/server";
-import { genderMap } from "@/src/lib/const";
+import { convertElem, getApiURL } from "@/src/utils/api/fetch";
+import { createClient } from "@/src/utils/supabase/server";
+import { genderMap } from "@/src/config/const";
+
+const { log } = console;
 
 export async function POST(request: Request) {
   const supabase = createClient();
@@ -9,16 +11,16 @@ export async function POST(request: Request) {
   const { year, division, ordinal, filter } = body;
 
   const tableName = `${year}-OPEN-${ordinal}-${genderMap[division]}`;
-  console.log(`Data will be updated at table : ${tableName}`);
+  log(`Data will be updated at table : ${tableName}`);
 
   // 기존 데이터 삭제
-  console.log("┌ Start : Delete ┐");
+  log("┌ Start : Delete ┐");
   const { error: deleteError } = await supabase
     .from(tableName)
     .delete()
     .neq("rank", -1);
-  if (deleteError) console.log(deleteError);
-  console.log("└ Finish: Delete ┘");
+  if (deleteError) log(deleteError);
+  log("└ Finish: Delete ┘");
 
   const scoreMap: { [key: number]: { count: number } } = {};
 
@@ -28,11 +30,11 @@ export async function POST(request: Request) {
 
   try {
     // crossfit API로 데이터 가져오기
-    console.log("=== Start : Fetching ===");
+    log("=== Start : Fetching ===");
 
     for (let i = 1; i <= totalPages; i++) {
       if (i % 10 === 0) {
-        console.log(`Fetching page ${i} of ${totalPages}`);
+        log(`Fetching page ${i} of ${totalPages}`);
       }
       const apiURL = getApiURL(year, division, i);
       const data = await fetch(apiURL).then((res) => res.json());
@@ -50,19 +52,19 @@ export async function POST(request: Request) {
         }
       }
     }
-    console.log("=== Finish : Fetching ===");
+    log("=== Finish : Fetching ===");
   } catch (e: any) {
-    console.log("returned by error");
+    log("returned by error");
     return NextResponse.json({ ok: false, error: e.message });
   }
 
   const dataList = Object.values(scoreMap);
 
   // DB에 데이터 넣기
-  console.log("┌ Start : Insert into DB ┐");
+  log("┌ Start : Insert into DB ┐");
   const { error } = await supabase.from(tableName).insert(dataList);
-  if (error) console.log(error);
-  console.log("└ Finish: Insert into DB ┘");
+  if (error) log(error);
+  log("└ Finish: Insert into DB ┘");
 
   return NextResponse.json({
     ok: true,

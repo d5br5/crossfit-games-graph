@@ -1,4 +1,4 @@
-import { apiBaseURL } from "./const";
+import { apiBaseURL } from "@/src/config/const";
 
 export const getApiURL = (
   year: number,
