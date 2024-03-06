@@ -11,13 +11,6 @@ export const UpdateButton = () => {
       year: 2024,
       division: 2, // 1: M, 2: F
       ordinal: 1,
-      filter: [
-        { name: "rank", isNum: true },
-        { name: "scoreDisplay" },
-        { name: "breakdown" },
-        { name: "time", isNum: true },
-        { name: "scaled", isNum: true },
-      ],
     };
 
     setIsLoading(true);

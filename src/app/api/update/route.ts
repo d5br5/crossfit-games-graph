@@ -1,73 +1,45 @@
 import { NextResponse } from "next/server";
-import { convertElem, getApiURL } from "@/src/utils/api/fetch";
+import {
+  addPercentage,
+  fetchAllPages,
+  getTableName,
+  insertDataIntoTable,
+  resetTable,
+} from "@/src/utils/api/fetch";
 import { createClient } from "@/src/utils/supabase/server";
-import { genderMap } from "@/src/config/const";
+import { MetaInfo } from "@/src/config/types";
 
 const { log } = console;
 
 export async function POST(request: Request) {
-  const supabase = createClient();
+  // request body를 기반으로 DB 테이블명 정하기
   const body = await request.json();
-  const { year, division, ordinal, filter } = body;
+  const { year, division, ordinal } = body;
+  const metaInfo: MetaInfo = { year, division, ordinal };
 
-  const tableName = `${year}-OPEN-${ordinal}-${genderMap[division]}`;
+  const tableName = getTableName(year, ordinal, division);
   log(`Data will be updated at table : ${tableName}`);
 
+  // db control을 위한 supabase client
+  const supabase = createClient();
+
   // 기존 데이터 삭제
-  log("┌ Start : Delete ┐");
-  const { error: deleteError } = await supabase
-    .from(tableName)
-    .delete()
-    .neq("rank", -1);
-  if (deleteError) log(deleteError);
-  log("└ Finish: Delete ┘");
-
-  const scoreMap: { [key: number]: { count: number } } = {};
-
-  const firstAPIURL = getApiURL(year, division, 1);
-  const data = await fetch(firstAPIURL).then((res) => res.json());
-  const { totalPages, totalCompetitors } = data.pagination;
+  await resetTable(supabase, tableName);
 
   try {
-    // crossfit API로 데이터 가져오기
-    log("=== Start : Fetching ===");
+    // 모든 페이지 fetch 후 scoreMap 생성
+    const { scoreMap, countMap } = await fetchAllPages(metaInfo);
+    const dataList = addPercentage(scoreMap, countMap);
 
-    for (let i = 1; i <= totalPages; i++) {
-      if (i % 10 === 0) {
-        log(`Fetching page ${i} of ${totalPages}`);
-      }
-      const apiURL = getApiURL(year, division, i);
-      const data = await fetch(apiURL).then((res) => res.json());
-      const { leaderboardRows } = data;
-      for (const row of leaderboardRows) {
-        const score = row.scores.find(
-          (score: any) => score.ordinal === ordinal
-        );
-        const record = convertElem(score, filter);
-        const { rank } = record;
-        if (scoreMap[rank]) {
-          scoreMap[rank].count += 1;
-        } else {
-          scoreMap[rank] = { count: 1, ...record };
-        }
-      }
-    }
-    log("=== Finish : Fetching ===");
-  } catch (e: any) {
+    // 새로운 데이터 DB에 넣기
+    insertDataIntoTable(supabase, tableName, dataList);
+  } catch (e) {
     log("returned by error");
-    return NextResponse.json({ ok: false, error: e.message });
+    return NextResponse.json({ ok: false, error: e });
   }
-
-  const dataList = Object.values(scoreMap);
-
-  // DB에 데이터 넣기
-  log("┌ Start : Insert into DB ┐");
-  const { error } = await supabase.from(tableName).insert(dataList);
-  if (error) log(error);
-  log("└ Finish: Insert into DB ┘");
 
   return NextResponse.json({
     ok: true,
-    data: `For ${totalPages} pages / ${totalCompetitors} competitors.`,
+    msg: "fetched successfully",
   });
 }
