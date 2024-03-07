@@ -16,7 +16,7 @@ export default async function LoggedInUserButton() {
 
     const supabase = createClient();
     await supabase.auth.signOut();
-    return redirect("/");
+    return redirect("/user");
   };
 
   return (
@@ -26,7 +26,7 @@ export default async function LoggedInUserButton() {
           <UserIcon className="size-[1.2rem]" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-32" align="end">
+      <DropdownMenuContent className="w-32" align="center">
         <DropdownMenuItem>
           <form
             action={signOut}

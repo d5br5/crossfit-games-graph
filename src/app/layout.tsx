@@ -1,6 +1,6 @@
 import "@/src/config/globals.css";
 
-import Header from "@/src/layouts/header";
+import Header from "@/src/layouts/Header";
 import Footer from "@/src/layouts/Footer";
 
 import { GeistSans } from "geist/font/sans";
