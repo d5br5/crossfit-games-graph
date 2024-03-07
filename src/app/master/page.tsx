@@ -1,6 +1,6 @@
 import { useServerUser } from "@/src/hooks/useServerUser";
 import { redirect } from "next/navigation";
-import { UpdateButton } from "./update-button";
+import { Update } from "./Update";
 
 export default async function MasterPage() {
   const user = await useServerUser();
@@ -11,7 +11,7 @@ export default async function MasterPage() {
 
   return (
     <div className="flex-1 grid place-items-center">
-      <UpdateButton />
+      <Update />
     </div>
   );
 }

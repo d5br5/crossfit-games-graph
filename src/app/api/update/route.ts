@@ -17,8 +17,13 @@ const { log } = console;
 export async function POST(request: Request) {
   // request body를 기반으로 DB 테이블명 정하기
   const body = await request.json();
-  const { year, division, ordinal } = body;
+  const { year, division, ordinal, password } = body;
   const metaInfo: MetaInfo = { year, division, ordinal };
+
+  // password가 맞는지 확인
+  if (password !== process.env.FETCH_KEY) {
+    return NextResponse.json({ ok: false, error: "password is wrong" });
+  }
 
   const tableName = getTableName(year, ordinal, division);
   log(`Data will be updated at table : ${tableName}`);

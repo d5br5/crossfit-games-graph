@@ -1,16 +1,19 @@
 "use client";
 
 import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
 import { useState } from "react";
 
-export const UpdateButton = () => {
+export const Update = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [password, setPassword] = useState("");
 
   const fetchData = async () => {
     const payload = {
       year: 2024,
       division: 1, // 1: M, 2: F
       ordinal: 1,
+      password,
     };
 
     setIsLoading(true);
@@ -24,8 +27,16 @@ export const UpdateButton = () => {
   };
 
   return (
-    <Button onClick={fetchData} disabled={isLoading}>
-      {isLoading ? "Fetching..." : "Update"}
-    </Button>
+    <div className="flex gap-4">
+      <Input
+        value={password}
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
+      />
+      <Button onClick={fetchData} disabled={isLoading}>
+        {isLoading ? "Fetching..." : "Update"}
+      </Button>
+    </div>
   );
 };
