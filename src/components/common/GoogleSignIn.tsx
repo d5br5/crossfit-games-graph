@@ -2,7 +2,6 @@
 
 import { Button } from "@/src/components/ui/button";
 import { createClient } from "@/src/utils/supabase/client";
-import { LogIn } from "lucide-react";
 
 const GoogleSignIn = () => {
   const login = async () => {
