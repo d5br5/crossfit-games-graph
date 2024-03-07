@@ -30,3 +30,9 @@ export interface MetaInfo {
   division: number;
   ordinal: number;
 }
+
+export interface HeadCount {
+  scaled: string;
+  count: number;
+  percentage: number;
+}

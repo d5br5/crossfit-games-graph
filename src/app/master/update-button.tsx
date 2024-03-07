@@ -9,7 +9,7 @@ export const UpdateButton = () => {
   const fetchData = async () => {
     const payload = {
       year: 2024,
-      division: 2, // 1: M, 2: F
+      division: 1, // 1: M, 2: F
       ordinal: 1,
     };
 

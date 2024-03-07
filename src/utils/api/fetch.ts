@@ -3,6 +3,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { apiBaseURL, genderMap } from "@/src/config/const";
 import {
   CountMap,
+  HeadCount,
   MetaInfo,
   RawScore,
   Score,
@@ -48,12 +49,57 @@ export const insertDataIntoTable = async (
   log("└ Finish: Insert into DB ┘");
 };
 
+export const updateTableLastUpdated = async (
+  supabase: SupabaseClient,
+  tableName: string
+) => {
+  log("┌ Start  : update table - last updated ┐");
+  const { error } = await supabase
+    .from("table-status")
+    .upsert({ tableName, lastUpdated: new Date().toISOString() });
+  if (error) log(error);
+  log("└ Finish : update table - last updated ┘");
+};
+
+export const updateHeadCountTable = async (
+  supabase: SupabaseClient,
+  headCountDist: HeadCount[],
+  metaInfo: MetaInfo
+) => {
+  const tableName = "head-count";
+  const { year, ordinal, division } = metaInfo;
+
+  // 기존 데이터 삭제
+  await supabase
+    .from(tableName)
+    .delete()
+    .eq("year", year)
+    .eq("ordinal", ordinal)
+    .eq("division", division);
+
+  const dataList = headCountDist.map((item) => ({
+    category: "open",
+    year,
+    ordinal,
+    division,
+    scaled: item.scaled,
+    count: item.count,
+    percentage: item.percentage,
+  }));
+
+  log("┌ Start  : update table - head count ┐");
+  const { error } = await supabase.from(tableName).insert(dataList);
+  if (error) log(error);
+  log("└ Finish : update table - head count ┘");
+};
+
 export const fetchAllPages = async (metaInfo: MetaInfo) => {
   const { year, ordinal, division } = metaInfo;
 
   // API 호출 후 score 목록을 가공하여 저장할 Map
   const scoreMap: ScoreMap = {};
   const countMap: CountMap = {};
+  let blankCount = 0;
 
   // 첫 API 호출로 총 page 산정
   const firstAPIURL = getApiURL(year, division, 1);
@@ -76,6 +122,7 @@ export const fetchAllPages = async (metaInfo: MetaInfo) => {
       const record = convertElem(score);
       const { rank, scoreDisplay, scaled } = record;
       if (score.score === "0" || scoreDisplay === "") {
+        blankCount += 1;
         continue;
       }
 
@@ -107,7 +154,7 @@ export const fetchAllPages = async (metaInfo: MetaInfo) => {
 
   log("=== Finish : Fetching ===");
 
-  return { scoreMap, countMap };
+  return { scoreMap, countMap, blankCount };
 };
 
 const toNum = (value: any) => {
@@ -147,6 +194,32 @@ export const addPercentage = (scoreMap: ScoreMap, countMap: CountMap) => {
       ),
       overallPercentage: Number(((score.rank / total) * 100).toFixed(3)),
     };
+  });
+
+  return result;
+};
+
+export const getHeadCountDist = (
+  countMap: CountMap,
+  blankCount: number = 0
+) => {
+  const total =
+    Object.values(countMap)
+      .map((item) => item.count)
+      .reduce((prev, curr) => prev + curr, 0) + blankCount;
+
+  const result: HeadCount[] = Object.entries(countMap).map(([key, value]) => {
+    return {
+      scaled: key,
+      count: value.count as number,
+      percentage: Number(((value.count / total) * 100).toFixed(3)),
+    };
+  });
+
+  result.push({
+    scaled: "-1",
+    count: blankCount,
+    percentage: Number(((blankCount / total) * 100).toFixed(3)),
   });
 
   return result;
