@@ -1,5 +1,5 @@
 import { useServerUser } from "@/src/hooks/useServerUser";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Update } from "./Update";
 
 export default async function MasterPage() {
