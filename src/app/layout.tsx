@@ -6,7 +6,6 @@ import Footer from "@/src/layouts/Footer";
 import { GeistSans } from "geist/font/sans";
 import { Toaster } from "@/src/components/ui/toaster";
 import { ThemeProvider } from "@/src/layouts/theme/Provider";
-import { cn } from "@/lib/utils";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -24,16 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={cn(GeistSans.className, "size-full")}
-      suppressHydrationWarning
-    >
-      <body className="bg-background text-foreground h-full">
+    <html lang="en" className={GeistSans.className} suppressHydrationWarning>
+      <body className="bg-background text-foreground">
         <ThemeProvider>
-          <main className="min-h-screen flex flex-col h-full items-center max-w-none">
+          <main className="min-h-screen flex flex-col items-center prose dark:prose-invert max-w-none">
             <Header />
-            <div className="flex flex-col flex-1 ">{children}</div>
+            <div className="flex-1 w-full flex flex-col">{children}</div>
             <Footer />
           </main>
           <Toaster />
