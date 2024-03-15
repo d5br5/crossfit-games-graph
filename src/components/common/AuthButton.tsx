@@ -1,7 +1,5 @@
 import { createClient } from "@/src/utils/supabase/server";
-
-import GoogleSignIn from "./GoogleSignIn";
-import LoggedInUserButton from "./LoggedInUserButton";
+import { LoggedIn, LoggedOut } from "./UserButton";
 
 export default async function AuthButton() {
   const supabase = createClient();
@@ -10,5 +8,5 @@ export default async function AuthButton() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return user ? <LoggedInUserButton /> : <GoogleSignIn />;
+  return user ? <LoggedIn /> : <LoggedOut />;
 }

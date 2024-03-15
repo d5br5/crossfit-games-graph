@@ -7,9 +7,12 @@ const Header = () => {
   return (
     <nav className="w-full flex justify-between items-center text-sm border-b border-b-foreground/10 h-16 py-3 px-5">
       <Link href="/" className="font-semibold text-lg">
-        Crossfit Games Graph
+        WOD PARK
       </Link>
-      <ThemeSwitch />
+      <div className="flex gap-2">
+        <AuthButton />
+        <ThemeSwitch />
+      </div>
     </nav>
   );
 };

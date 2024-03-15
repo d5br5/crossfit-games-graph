@@ -13,8 +13,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Crossfit Games Graph",
-  description: "The leaderboard distribution graph for Crossfit Games",
+  title: "WOD PARK",
+  description: "국내 유일의 크로스핏 커뮤니티",
 };
 
 export default function RootLayout({

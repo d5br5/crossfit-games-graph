@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
     <footer className="w-full border-t border-t-foreground/10 p-8 justify-center text-center text-sm">
-      © 2024. <span className="font-semibold">Crossfit Games Graph</span> all
-      rights reserved.
+      © 2024. <span className="font-semibold">WOD PARK</span> all rights
+      reserved.
     </footer>
   );
 };
