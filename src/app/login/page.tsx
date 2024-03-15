@@ -1,4 +1,4 @@
-import GoogleSignIn from "@/src/components/common/GoogleSignIn";
+import GoogleSignIn from "@/src/layouts/header/GoogleSignIn";
 
 const LoginPage = () => {
   return (

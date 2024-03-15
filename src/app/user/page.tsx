@@ -1,4 +1,4 @@
-import AuthButton from "@/src/components/common/AuthButton";
+import AuthButton from "@/src/layouts/header/AuthButton";
 import { Button } from "@/src/components/ui/button";
 import { useServerUser } from "@/src/hooks/useServerUser";
 import Link from "next/link";

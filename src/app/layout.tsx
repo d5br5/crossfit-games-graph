@@ -1,7 +1,7 @@
 import "@/src/config/globals.css";
 
-import Header from "@/src/layouts/Header";
-import Footer from "@/src/layouts/Footer";
+import Header from "@/src/layouts/header";
+import Footer from "@/src/layouts/footer";
 
 import { GeistSans } from "geist/font/sans";
 import { Toaster } from "@/src/components/ui/toaster";

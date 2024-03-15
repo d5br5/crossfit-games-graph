@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import AuthButton from "@/src/components/common/AuthButton";
+import AuthButton from "@/src/layouts/header/AuthButton";
 import ThemeSwitch from "@/src/layouts/theme/Switch";
 
 const Header = () => {
