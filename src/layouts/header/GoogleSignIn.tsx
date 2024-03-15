@@ -15,8 +15,8 @@ const GoogleSignIn = () => {
     });
   };
   return (
-    <Button onClick={login} variant="ghost">
-      Login with Google
+    <Button onClick={login} variant="outline">
+      구글 계정으로 로그인
     </Button>
   );
 };

@@ -7,6 +7,7 @@ import { createClient } from "@/src/utils/supabase/server";
 
 const UserPage = async () => {
   const user = await useServerUser();
+  if (!user) return redirect("/login");
 
   const isMaster = user?.id === process.env.MASTER_UID;
 
@@ -15,11 +16,12 @@ const UserPage = async () => {
 
     const supabase = createClient();
     await supabase.auth.signOut();
-    return redirect("/user");
+    return redirect("/login");
   };
 
   return (
     <div className="flex flex-col items-center gap-4">
+      {isMaster && <Button>Master</Button>}
       <form
         action={signOut}
         className="flex justify-between w-full items-center"
@@ -28,7 +30,6 @@ const UserPage = async () => {
           Log out <LogOut className="size-[0.9rem]" />
         </Button>
       </form>
-      {isMaster && <Button>Master</Button>}
     </div>
   );
 };
