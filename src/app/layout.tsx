@@ -28,7 +28,9 @@ export default function RootLayout({
         <ThemeProvider>
           <main className="min-h-screen flex flex-col items-center prose dark:prose-invert max-w-none">
             <Header />
-            <div className="flex-1 w-full flex flex-col">{children}</div>
+            <div className="flex-1 w-full grid place-items-center">
+              {children}
+            </div>
             <Footer />
           </main>
           <Toaster />
