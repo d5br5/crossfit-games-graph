@@ -1,3 +1,3 @@
 export default async function Index() {
-  return <div>main mage</div>;
+  return <div>main page</div>;
 }
