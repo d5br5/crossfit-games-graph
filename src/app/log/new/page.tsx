@@ -3,6 +3,7 @@
 import { Button } from "@/src/components/ui/button";
 import { useState } from "react";
 import { format } from "date-fns";
+import { ko } from "date-fns/locale";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -13,6 +14,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/src/components/ui/popover";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/src/components/ui/select";
 
 const NewLogPage = () => {
   const [date, setDate] = useState<Date>();
@@ -36,7 +47,11 @@ const NewLogPage = () => {
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
+              {date ? (
+                format(date, "PPPP", { locale: ko })
+              ) : (
+                <span>날짜 선택</span>
+              )}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0 items-center flex flex-col pb-3">
@@ -51,6 +66,20 @@ const NewLogPage = () => {
             </PopoverClose>
           </PopoverContent>
         </Popover>
+        <Select>
+          <SelectTrigger className="w-[280px]">
+            <SelectValue placeholder="시간대 선택" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="dawn">새벽</SelectItem>
+            <SelectItem value="morning">아침</SelectItem>
+            <SelectItem value="midday">점심</SelectItem>
+            <SelectItem value="afternoon">오후</SelectItem>
+            <SelectItem value="evening">저녁</SelectItem>
+            <SelectItem value="night">밤</SelectItem>
+            <SelectItem value="midnight">심야</SelectItem>
+          </SelectContent>
+        </Select>
         <div>장소</div>
         <div className="border rounded-md py-3 px-6">내용</div>
       </div>
