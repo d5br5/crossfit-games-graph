@@ -28,10 +28,7 @@ import {
   CommandList,
 } from "@/src/components/ui/command";
 
-const serverData = [
-  { value: "painstorm", label: "dinstorm" },
-  { value: "limelight", label: "라임라잇" },
-];
+const serverData = ["dinstorm", "라임라잇"];
 
 const timezoneList = [
   { value: "dawn", label: "새벽" },
@@ -56,11 +53,10 @@ const NewLogPage = () => {
   const [locationValue, setLocationValue] = React.useState("");
   const [inputValue, setInputValue] = React.useState("");
 
+  console.log(locationValue);
+
   // 신규 추가 장소 목록
-  const [clientData, setClientData] = useState([
-    { value: "painstorm3", label: "painstorm3" },
-    { value: "lime light4", label: "limelight 4" },
-  ]);
+  const [clientData, setClientData] = useState(["painstorm3", "limelight5"]);
 
   const canSubmit = Boolean(date && timezoneValue && locationValue);
 
@@ -72,7 +68,7 @@ const NewLogPage = () => {
   };
 
   const isPrevLocation = [...serverData, ...clientData].some(
-    (item) => item.label === inputValue
+    (item) => item === inputValue
   );
 
   return (
@@ -167,8 +163,8 @@ const NewLogPage = () => {
             >
               {locationValue
                 ? [...clientData, ...serverData].find(
-                    (location) => location.value === locationValue
-                  )?.label
+                    (location) => location === locationValue
+                  )
                 : "장소"}
               <MapPinned className="ml-2 size-4 shrink-0" />
             </Button>
@@ -185,8 +181,8 @@ const NewLogPage = () => {
                 <CommandGroup heading="내 장소">
                   {serverData.map((location) => (
                     <CommandItem
-                      key={location.value}
-                      value={location.label}
+                      key={location}
+                      value={location}
                       onSelect={(currentValue) => {
                         if (currentValue !== locationValue)
                           setLocationValue(currentValue);
@@ -196,20 +192,20 @@ const NewLogPage = () => {
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          locationValue === location.value
+                          locationValue === location
                             ? "opacity-100"
                             : "opacity-0"
                         )}
                       />
-                      {location.label}
+                      {location}
                     </CommandItem>
                   ))}
                 </CommandGroup>
                 <CommandGroup heading="새로 추가된 장소">
                   {clientData.map((location) => (
                     <CommandItem
-                      key={location.value}
-                      value={location.label}
+                      key={location}
+                      value={location}
                       onSelect={(currentValue) => {
                         if (currentValue !== locationValue)
                           setLocationValue(currentValue);
@@ -219,12 +215,12 @@ const NewLogPage = () => {
                       <Check
                         className={cn(
                           "mr-2 size-4",
-                          locationValue === location.value
+                          locationValue === location
                             ? "opacity-100"
                             : "opacity-0"
                         )}
                       />
-                      {location.label}
+                      {location}
                     </CommandItem>
                   ))}
                 </CommandGroup>
@@ -234,10 +230,7 @@ const NewLogPage = () => {
                       disabled={isPrevLocation}
                       onSelect={() => {
                         setLocationOpen(false);
-                        setClientData((prev) => [
-                          ...prev,
-                          { value: inputValue, label: inputValue },
-                        ]);
+                        setClientData((prev) => [...prev, inputValue]);
                         setLocationValue(inputValue);
                         setInputValue("");
                       }}
