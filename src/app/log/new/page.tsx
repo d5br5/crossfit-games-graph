@@ -62,11 +62,18 @@ const NewLogPage = () => {
     { value: "lime light4", label: "limelight 4" },
   ]);
 
+  const canSubmit = Boolean(date && timezoneValue && locationValue);
+
   // 등록 버튼 클릭 handler
   const onSubmit = () => {
+    if (!canSubmit) return;
     console.log("submit");
-    console.log(date);
+    console.log(date, timezoneValue, locationValue);
   };
+
+  const isPrevLocation = [...serverData, ...clientData].some(
+    (item) => item.label === inputValue
+  );
 
   return (
     <div className="max-w-[1200px] w-full px-3">
@@ -118,26 +125,27 @@ const NewLogPage = () => {
           <PopoverContent className="w-[280px] p-0">
             <Command>
               <CommandList>
-                <CommandGroup heading="내 장소">
+                <CommandGroup>
                   {timezoneList.map((tz) => (
                     <CommandItem
                       key={tz.value}
                       value={tz.value}
+                      className="flex justify-between px-3"
                       onSelect={(currentValue) => {
                         if (currentValue !== timezoneValue)
                           setTimezoneValue(currentValue);
                         setTimezoneOpen(false);
                       }}
                     >
+                      {tz.label}
                       <Check
                         className={cn(
-                          "mr-2 h-4 w-4",
+                          "size-4",
                           timezoneValue === tz.value
                             ? "opacity-100"
                             : "opacity-0"
                         )}
                       />
-                      {tz.label}
                     </CommandItem>
                   ))}
                 </CommandGroup>
@@ -173,29 +181,12 @@ const NewLogPage = () => {
                   value={inputValue}
                   onValueChange={setInputValue}
                 />
-                {inputValue !== "" &&
-                  [...serverData, ...clientData].every(
-                    (item) => item.label !== inputValue
-                  ) && (
-                    <CommandItem
-                      onSelect={() => {
-                        setClientData((prev) => [
-                          ...prev,
-                          { value: inputValue, label: inputValue },
-                        ]);
-                        setInputValue("");
-                        setLocationValue(inputValue);
-                        setLocationOpen(false);
-                      }}
-                    >
-                      신규 장소 추가 : {inputValue}
-                    </CommandItem>
-                  )}
+
                 <CommandGroup heading="내 장소">
                   {serverData.map((location) => (
                     <CommandItem
                       key={location.value}
-                      value={location.value}
+                      value={location.label}
                       onSelect={(currentValue) => {
                         if (currentValue !== locationValue)
                           setLocationValue(currentValue);
@@ -218,7 +209,7 @@ const NewLogPage = () => {
                   {clientData.map((location) => (
                     <CommandItem
                       key={location.value}
-                      value={location.value}
+                      value={location.label}
                       onSelect={(currentValue) => {
                         if (currentValue !== locationValue)
                           setLocationValue(currentValue);
@@ -237,6 +228,24 @@ const NewLogPage = () => {
                     </CommandItem>
                   ))}
                 </CommandGroup>
+                {inputValue !== "" && (
+                  <CommandGroup>
+                    <CommandItem
+                      disabled={isPrevLocation}
+                      onSelect={() => {
+                        setLocationOpen(false);
+                        setClientData((prev) => [
+                          ...prev,
+                          { value: inputValue, label: inputValue },
+                        ]);
+                        setLocationValue(inputValue);
+                        setInputValue("");
+                      }}
+                    >
+                      신규 장소 추가 : {inputValue}
+                    </CommandItem>
+                  </CommandGroup>
+                )}
               </CommandList>
             </Command>
           </PopoverContent>
@@ -245,7 +254,7 @@ const NewLogPage = () => {
         <div className="border rounded-md py-3 px-6">내용</div>
       </div>
       <div className="w-full text-right mt-4">
-        <Button className="right-0" onClick={onSubmit}>
+        <Button className="right-0" onClick={onSubmit} disabled={!canSubmit}>
           운동일지 만들기
         </Button>
       </div>
