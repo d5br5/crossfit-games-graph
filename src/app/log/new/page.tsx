@@ -55,7 +55,7 @@ const NewLogPage = () => {
   };
 
   return (
-    <div className="max-w-[1200px] w-full">
+    <div className="max-w-[1200px] w-full px-3">
       {/* <h1>새 운동일지</h1> */}
       <div className="flex flex-col gap-3">
         <Popover>
