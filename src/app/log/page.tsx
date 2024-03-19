@@ -7,7 +7,7 @@ const LogPage = () => {
       <div>Log Page</div>
 
       <Button asChild>
-        <Link href={"/log/new"}>Button</Link>
+        <Link href={"/log/new"}>New</Link>
       </Button>
     </div>
   );
