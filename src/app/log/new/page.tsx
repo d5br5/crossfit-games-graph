@@ -18,9 +18,7 @@ import {
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/src/components/ui/select";
@@ -42,16 +40,16 @@ const NewLogPage = () => {
             <Button
               variant={"outline"}
               className={cn(
-                "w-[280px] justify-start text-left font-normal",
+                "w-[280px] justify-between font-normal",
                 !date && "text-muted-foreground"
               )}
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
               {date ? (
                 format(date, "PPPP", { locale: ko })
               ) : (
                 <span>날짜 선택</span>
               )}
+              <CalendarIcon className="size-4" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0 items-center flex flex-col pb-3">
