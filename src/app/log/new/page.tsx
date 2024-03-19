@@ -4,7 +4,12 @@ import { Button } from "@/src/components/ui/button";
 import React, { useState } from "react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
-import { Calendar as CalendarIcon, Check, MapPinned } from "lucide-react";
+import {
+  Calendar as CalendarIcon,
+  Check,
+  MapPinned,
+  Clock3,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/src/components/ui/calendar";
@@ -16,16 +21,7 @@ import {
 } from "@/src/components/ui/popover";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/src/components/ui/select";
-
-import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
@@ -37,18 +33,36 @@ const serverData = [
   { value: "limelight", label: "라임라잇" },
 ];
 
+const timezoneList = [
+  { value: "dawn", label: "새벽" },
+  { value: "morning", label: "아침" },
+  { value: "midday", label: "점심" },
+  { value: "afternoon", label: "오후" },
+  { value: "evening", label: "저녁" },
+  { value: "night", label: "밤" },
+  { value: "midnight", label: "심야" },
+];
+
 const NewLogPage = () => {
+  // 날짜 데이터
   const [date, setDate] = useState<Date>();
 
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  // 시간대 데이터
+  const [timezoneOpen, setTimezoneOpen] = React.useState(false);
+  const [timezoneValue, setTimezoneValue] = React.useState("");
+
+  // 장소 데이터
+  const [locationOpen, setLocationOpen] = React.useState(false);
+  const [locationValue, setLocationValue] = React.useState("");
   const [inputValue, setInputValue] = React.useState("");
 
+  // 신규 추가 장소 목록
   const [clientData, setClientData] = useState([
     { value: "painstorm3", label: "painstorm3" },
     { value: "lime light4", label: "limelight 4" },
   ]);
 
+  // 등록 버튼 클릭 handler
   const onSubmit = () => {
     console.log("submit");
     console.log(date);
@@ -63,7 +77,7 @@ const NewLogPage = () => {
             <Button
               variant={"outline"}
               className={cn(
-                "w-[280px] justify-between font-normal",
+                "w-[280px] justify-between",
                 !date && "text-muted-foreground"
               )}
             >
@@ -83,31 +97,70 @@ const NewLogPage = () => {
             </PopoverClose>
           </PopoverContent>
         </Popover>
-        <Select>
-          <SelectTrigger className="w-[280px]">
-            <SelectValue placeholder="시간대" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="dawn">새벽</SelectItem>
-            <SelectItem value="morning">아침</SelectItem>
-            <SelectItem value="midday">점심</SelectItem>
-            <SelectItem value="afternoon">오후</SelectItem>
-            <SelectItem value="evening">저녁</SelectItem>
-            <SelectItem value="night">밤</SelectItem>
-            <SelectItem value="midnight">심야</SelectItem>
-          </SelectContent>
-        </Select>
 
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover open={timezoneOpen} onOpenChange={setTimezoneOpen}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
               role="combobox"
-              aria-expanded={open}
-              className="w-[280px] justify-between"
+              aria-expanded={timezoneOpen}
+              className={cn(
+                "w-[280px] justify-between",
+                timezoneValue === "" && "text-muted-foreground"
+              )}
             >
-              {value
-                ? clientData.find((location) => location.value === value)?.label
+              {timezoneValue
+                ? timezoneList.find((tz) => tz.value === timezoneValue)?.label
+                : "시간대"}
+              <Clock3 className="ml-2 size-4 shrink-0" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[280px] p-0">
+            <Command>
+              <CommandList>
+                <CommandGroup heading="내 장소">
+                  {timezoneList.map((tz) => (
+                    <CommandItem
+                      key={tz.value}
+                      value={tz.value}
+                      onSelect={(currentValue) => {
+                        if (currentValue !== timezoneValue)
+                          setTimezoneValue(currentValue);
+                        setTimezoneOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          timezoneValue === tz.value
+                            ? "opacity-100"
+                            : "opacity-0"
+                        )}
+                      />
+                      {tz.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+
+        <Popover open={locationOpen} onOpenChange={setLocationOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={locationOpen}
+              className={cn(
+                "w-[280px] justify-between",
+                locationValue === "" && "text-muted-foreground"
+              )}
+            >
+              {locationValue
+                ? [...clientData, ...serverData].find(
+                    (location) => location.value === locationValue
+                  )?.label
                 : "장소"}
               <MapPinned className="ml-2 size-4 shrink-0" />
             </Button>
@@ -131,8 +184,8 @@ const NewLogPage = () => {
                           { value: inputValue, label: inputValue },
                         ]);
                         setInputValue("");
-                        setValue(inputValue);
-                        setOpen(false);
+                        setLocationValue(inputValue);
+                        setLocationOpen(false);
                       }}
                     >
                       신규 장소 추가 : {inputValue}
@@ -144,14 +197,17 @@ const NewLogPage = () => {
                       key={location.value}
                       value={location.value}
                       onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue);
-                        setOpen(false);
+                        if (currentValue !== locationValue)
+                          setLocationValue(currentValue);
+                        setLocationOpen(false);
                       }}
                     >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          value === location.value ? "opacity-100" : "opacity-0"
+                          locationValue === location.value
+                            ? "opacity-100"
+                            : "opacity-0"
                         )}
                       />
                       {location.label}
@@ -164,14 +220,17 @@ const NewLogPage = () => {
                       key={location.value}
                       value={location.value}
                       onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue);
-                        setOpen(false);
+                        if (currentValue !== locationValue)
+                          setLocationValue(currentValue);
+                        setLocationOpen(false);
                       }}
                     >
                       <Check
                         className={cn(
-                          "mr-2 h-4 w-4",
-                          value === location.value ? "opacity-100" : "opacity-0"
+                          "mr-2 size-4",
+                          locationValue === location.value
+                            ? "opacity-100"
+                            : "opacity-0"
                         )}
                       />
                       {location.label}
