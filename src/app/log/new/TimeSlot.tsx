@@ -17,6 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/src/components/ui/form";
+import { FormType } from "./page";
 
 const slotList = [
   { value: "dawn", label: "새벽" },
@@ -29,14 +30,7 @@ const slotList = [
 ];
 
 interface Props {
-  form: UseFormReturn<
-    {
-      timeSlot: string;
-      date: Date;
-    },
-    any,
-    undefined
-  >;
+  form: FormType;
 }
 
 export default function TimeSlot({ form }: Props) {

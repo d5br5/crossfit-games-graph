@@ -20,16 +20,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/src/components/ui/form";
+import { FormType } from "./page";
 
 interface Props {
-  form: UseFormReturn<
-    {
-      timeSlot: string;
-      date: Date;
-    },
-    any,
-    undefined
-  >;
+  form: FormType;
 }
 
 export default function DatePicker({ form }: Props) {
