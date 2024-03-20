@@ -1,7 +1,7 @@
 "use client";
 
+import React from "react";
 import { Button } from "@/src/components/ui/button";
-import React, { useState } from "react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import {
@@ -42,21 +42,24 @@ const timezoneList = [
 
 const NewLogPage = () => {
   // 날짜 데이터
-  const [date, setDate] = useState<Date>();
+  const [date, setDate] = React.useState<Date>();
 
   // 시간대 데이터
   const [timezoneOpen, setTimezoneOpen] = React.useState(false);
   const [timezoneValue, setTimezoneValue] = React.useState("");
+  // const [timezoneHoverValue, setTimezoneHoverValue] = React.useState("");
 
   // 장소 데이터
+  const [inputValue, setInputValue] = React.useState("");
   const [locationOpen, setLocationOpen] = React.useState(false);
   const [locationValue, setLocationValue] = React.useState("");
-  const [inputValue, setInputValue] = React.useState("");
-
-  console.log(locationValue);
+  const [locationHoverValue, setLocationHoverValue] = React.useState("");
 
   // 신규 추가 장소 목록
-  const [clientData, setClientData] = useState(["painstorm3", "limelight5"]);
+  const [clientData, setClientData] = React.useState([
+    "painstorm3",
+    "limelight5",
+  ]);
 
   const canSubmit = Boolean(date && timezoneValue && locationValue);
 
@@ -122,28 +125,31 @@ const NewLogPage = () => {
             <Command>
               <CommandList>
                 <CommandGroup>
-                  {timezoneList.map((tz) => (
-                    <CommandItem
-                      key={tz.value}
-                      value={tz.value}
-                      className="flex justify-between px-3"
-                      onSelect={(currentValue) => {
-                        if (currentValue !== timezoneValue)
-                          setTimezoneValue(currentValue);
-                        setTimezoneOpen(false);
-                      }}
-                    >
-                      {tz.label}
-                      <Check
+                  {timezoneList.map((tz) => {
+                    const isSelected = timezoneValue === tz.value;
+                    return (
+                      <CommandItem
+                        key={tz.value}
+                        value={tz.value}
                         className={cn(
-                          "size-4",
-                          timezoneValue === tz.value
-                            ? "opacity-100"
-                            : "opacity-0"
+                          "flex justify-between px-3",
+                          isSelected && "bg-accent text-accent-foreground"
                         )}
-                      />
-                    </CommandItem>
-                  ))}
+                        onSelect={(currentValue) => {
+                          setTimezoneValue(currentValue);
+                          setTimezoneOpen(false);
+                        }}
+                      >
+                        {tz.label}
+                        <Check
+                          className={cn(
+                            "size-4",
+                            isSelected ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                      </CommandItem>
+                    );
+                  })}
                 </CommandGroup>
               </CommandList>
             </Command>
@@ -170,7 +176,10 @@ const NewLogPage = () => {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[280px] p-0">
-            <Command>
+            <Command
+              value={locationHoverValue}
+              onValueChange={setLocationHoverValue}
+            >
               <CommandList>
                 <CommandInput
                   placeholder="장소 검색 / 신규 등록"
@@ -179,50 +188,58 @@ const NewLogPage = () => {
                 />
 
                 <CommandGroup heading="내 장소">
-                  {serverData.map((location) => (
-                    <CommandItem
-                      key={location}
-                      value={location}
-                      onSelect={(currentValue) => {
-                        if (currentValue !== locationValue)
-                          setLocationValue(currentValue);
-                        setLocationOpen(false);
-                      }}
-                    >
-                      <Check
+                  {serverData.map((location) => {
+                    const isSelected = locationValue === location;
+                    return (
+                      <CommandItem
+                        key={location}
+                        value={location}
                         className={cn(
-                          "mr-2 h-4 w-4",
-                          locationValue === location
-                            ? "opacity-100"
-                            : "opacity-0"
+                          isSelected && "bg-accent text-accent-foreground"
                         )}
-                      />
-                      {location}
-                    </CommandItem>
-                  ))}
+                        onSelect={(currentValue) => {
+                          setLocationValue(currentValue);
+                          setLocationHoverValue(currentValue);
+                          setLocationOpen(false);
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            isSelected ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {location}
+                      </CommandItem>
+                    );
+                  })}
                 </CommandGroup>
                 <CommandGroup heading="새로 추가된 장소">
-                  {clientData.map((location) => (
-                    <CommandItem
-                      key={location}
-                      value={location}
-                      onSelect={(currentValue) => {
-                        if (currentValue !== locationValue)
-                          setLocationValue(currentValue);
-                        setLocationOpen(false);
-                      }}
-                    >
-                      <Check
+                  {clientData.map((location) => {
+                    const isSelected = locationValue === location;
+                    return (
+                      <CommandItem
+                        key={location}
+                        value={location}
                         className={cn(
-                          "mr-2 size-4",
-                          locationValue === location
-                            ? "opacity-100"
-                            : "opacity-0"
+                          isSelected && "bg-accent text-accent-foreground"
                         )}
-                      />
-                      {location}
-                    </CommandItem>
-                  ))}
+                        onSelect={(currentValue) => {
+                          setLocationValue(currentValue);
+                          setLocationHoverValue(currentValue);
+                          setLocationOpen(false);
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 size-4",
+                            isSelected ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {location}
+                      </CommandItem>
+                    );
+                  })}
                 </CommandGroup>
                 {inputValue !== "" && (
                   <CommandGroup>
@@ -232,6 +249,7 @@ const NewLogPage = () => {
                         setLocationOpen(false);
                         setClientData((prev) => [...prev, inputValue]);
                         setLocationValue(inputValue);
+                        setLocationHoverValue(inputValue);
                         setInputValue("");
                       }}
                     >
