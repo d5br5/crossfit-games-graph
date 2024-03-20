@@ -27,6 +27,13 @@ import {
   CommandItem,
   CommandList,
 } from "@/src/components/ui/command";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/src/components/ui/select";
 
 const serverData = ["dinstorm", "라임라잇"];
 
@@ -104,57 +111,16 @@ const NewLogPage = () => {
           </PopoverContent>
         </Popover>
 
-        <Popover open={timezoneOpen} onOpenChange={setTimezoneOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={timezoneOpen}
-              className={cn(
-                "w-[280px] justify-between",
-                timezoneValue === "" && "text-muted-foreground"
-              )}
-            >
-              {timezoneValue
-                ? timezoneList.find((tz) => tz.value === timezoneValue)?.label
-                : "시간대"}
-              <Clock3 className="ml-2 size-4 shrink-0" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[280px] p-0">
-            <Command>
-              <CommandList>
-                <CommandGroup>
-                  {timezoneList.map((tz) => {
-                    const isSelected = timezoneValue === tz.value;
-                    return (
-                      <CommandItem
-                        key={tz.value}
-                        value={tz.value}
-                        className={cn(
-                          "flex justify-between px-3",
-                          isSelected && "bg-accent text-accent-foreground"
-                        )}
-                        onSelect={(currentValue) => {
-                          setTimezoneValue(currentValue);
-                          setTimezoneOpen(false);
-                        }}
-                      >
-                        {tz.label}
-                        <Check
-                          className={cn(
-                            "size-4",
-                            isSelected ? "opacity-100" : "opacity-0"
-                          )}
-                        />
-                      </CommandItem>
-                    );
-                  })}
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover>
+        <Select value={timezoneValue} onValueChange={setTimezoneValue}>
+          <SelectTrigger className="w-[280px]">
+            <SelectValue className="font-medium" placeholder="시간대" />
+          </SelectTrigger>
+          <SelectContent>
+            {timezoneList.map((tz) => (
+              <SelectItem value={tz.value}>{tz.label}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
         <Popover
           open={locationOpen}
