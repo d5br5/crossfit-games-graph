@@ -3,7 +3,6 @@ import { ko } from "date-fns/locale";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 import { Button } from "@/src/components/ui/button";
-import { cn } from "@/lib/utils";
 import { Calendar } from "@/src/components/ui/calendar";
 
 import {
@@ -22,7 +21,7 @@ export default function DatePicker({ date, setDate }: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant={"outline"} className={cn("w-[280px] justify-between")}>
+        <Button variant="outline" className="w-[280px] justify-between">
           {date ? format(date, "PPPP", { locale: ko }) : <span>날짜</span>}
           <CalendarIcon className="size-4" />
         </Button>

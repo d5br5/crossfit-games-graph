@@ -26,17 +26,20 @@ interface Props {
 export default function TimeSlot({ value, setValue }: Props) {
   return (
     <Select value={value} onValueChange={setValue}>
-      <SelectTriggerTimer className="w-[280px] font-medium">
+      <SelectTriggerTimer className="w-[280px] font-medium hover:bg-accent hover:text-accent-foreground">
         <SelectValue placeholder="시간대" />
       </SelectTriggerTimer>
       <SelectContent>
         {slotList.map((slot) => {
           const isSelected = value === slot.value;
+          const className = cn(
+            isSelected && "bg-accent text-accent-foreground"
+          );
           return (
             <SelectItem
               value={slot.value}
               key={slot.value}
-              className={cn(isSelected && "bg-accent text-accent-foreground")}
+              className={className}
             >
               {slot.label}
             </SelectItem>
