@@ -2,15 +2,11 @@
 
 import React, { FormEvent } from "react";
 import { Button } from "@/src/components/ui/button";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
-import { Calendar as CalendarIcon, Check, MapPinned } from "lucide-react";
-
+import { Check, MapPinned } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Calendar } from "@/src/components/ui/calendar";
+
 import {
   Popover,
-  PopoverClose,
   PopoverContent,
   PopoverTrigger,
 } from "@/src/components/ui/popover";
@@ -29,6 +25,8 @@ import {
   SelectTriggerTimer,
   SelectValue,
 } from "@/src/components/ui/select";
+
+import DatePicker from "./Date";
 
 const serverData = ["dinstorm", "라임라잇"];
 
@@ -79,28 +77,7 @@ const NewLogPage = () => {
     <div className="max-w-[1200px] w-full px-3">
       {/* <h1>새 운동일지</h1> */}
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant={"outline"}
-              className={cn("w-[280px] justify-between")}
-            >
-              {date ? format(date, "PPPP", { locale: ko }) : <span>날짜</span>}
-              <CalendarIcon className="size-4" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0 items-center flex flex-col pb-3">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              initialFocus
-            />
-            <PopoverClose asChild>
-              <Button size="sm">날짜 선택 및 닫기</Button>
-            </PopoverClose>
-          </PopoverContent>
-        </Popover>
+        <DatePicker date={date} setDate={setDate} />
 
         <Select value={timezoneValue} onValueChange={setTimezoneValue}>
           <SelectTriggerTimer className="w-[280px] font-medium">
