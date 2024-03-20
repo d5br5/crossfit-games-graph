@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { UseFormReturn } from "react-hook-form";
 
 import {
   Select,
@@ -7,6 +8,15 @@ import {
   SelectTriggerTimer,
   SelectValue,
 } from "@/src/components/ui/select";
+
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/src/components/ui/form";
 
 const slotList = [
   { value: "dawn", label: "새벽" },
@@ -19,33 +29,50 @@ const slotList = [
 ];
 
 interface Props {
-  value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  form: UseFormReturn<
+    {
+      timeSlot: string;
+    },
+    any,
+    undefined
+  >;
 }
 
-export default function TimeSlot({ value, setValue }: Props) {
+export default function TimeSlot({ form }: Props) {
   return (
-    <Select value={value} onValueChange={setValue}>
-      <SelectTriggerTimer className="w-[280px] font-medium hover:bg-accent hover:text-accent-foreground">
-        <SelectValue placeholder="시간대" />
-      </SelectTriggerTimer>
-      <SelectContent>
-        {slotList.map((slot) => {
-          const isSelected = value === slot.value;
-          const className = cn(
-            isSelected && "bg-accent text-accent-foreground"
-          );
-          return (
-            <SelectItem
-              value={slot.value}
-              key={slot.value}
-              className={className}
-            >
-              {slot.label}
-            </SelectItem>
-          );
-        })}
-      </SelectContent>
-    </Select>
+    <FormField
+      control={form.control}
+      name="timeSlot"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Email</FormLabel>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTriggerTimer>
+                <SelectValue placeholder="시간대" />
+              </SelectTriggerTimer>
+            </FormControl>
+            <SelectContent>
+              {slotList.map((slot) => (
+                <SelectItem
+                  value={slot.value}
+                  key={slot.value}
+                  className={cn(
+                    field.value === slot.value &&
+                      "bg-accent text-accent-foreground"
+                  )}
+                >
+                  {slot.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <FormDescription>
+            You can manage email addresses in your
+          </FormDescription>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   );
 }
