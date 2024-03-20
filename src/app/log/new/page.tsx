@@ -7,7 +7,14 @@ import DatePicker from "./DatePicker";
 import TimeSlot from "./TimeSlot";
 import Location from "./Location";
 
-const serverData = ["dinstorm", "라임라잇"];
+// const serverData = ["dinstorm", "라임라잇"];
+
+const serverData = [
+  { id: 1, label: "painstorm" },
+  { id: 2, label: "limelight" },
+];
+
+const serverDataLabelList = serverData.map((item) => item.label);
 
 const NewLogPage = () => {
   // form data
@@ -38,7 +45,7 @@ const NewLogPage = () => {
         <DatePicker date={date} setDate={setDate} />
         <TimeSlot value={timeSlot} setValue={setTimeSlot} />
         <Location
-          serverData={serverData}
+          serverData={serverDataLabelList}
           clientData={clientData}
           setClientData={setClientData}
           location={location}

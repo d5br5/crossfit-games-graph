@@ -9,6 +9,11 @@ const Header = () => {
       <Link href="/" className="font-semibold text-lg">
         WOD PARK
       </Link>
+      <div>
+        <Link href="/log" className="">
+          운동일지
+        </Link>
+      </div>
       <div className="flex gap-2">
         <AuthButton />
         <ThemeSwitch />
