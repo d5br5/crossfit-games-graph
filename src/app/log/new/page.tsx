@@ -4,12 +4,7 @@ import React from "react";
 import { Button } from "@/src/components/ui/button";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
-import {
-  Calendar as CalendarIcon,
-  Check,
-  MapPinned,
-  Clock3,
-} from "lucide-react";
+import { Calendar as CalendarIcon, Check, MapPinned } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/src/components/ui/calendar";
@@ -31,7 +26,7 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectTrigger,
+  SelectTriggerTimer,
   SelectValue,
 } from "@/src/components/ui/select";
 
@@ -52,9 +47,7 @@ const NewLogPage = () => {
   const [date, setDate] = React.useState<Date>();
 
   // 시간대 데이터
-  const [timezoneOpen, setTimezoneOpen] = React.useState(false);
   const [timezoneValue, setTimezoneValue] = React.useState("");
-  // const [timezoneHoverValue, setTimezoneHoverValue] = React.useState("");
 
   // 장소 데이터
   const [inputValue, setInputValue] = React.useState("");
@@ -89,10 +82,7 @@ const NewLogPage = () => {
           <PopoverTrigger asChild>
             <Button
               variant={"outline"}
-              className={cn(
-                "w-[280px] justify-between",
-                !date && "text-muted-foreground"
-              )}
+              className={cn("w-[280px] justify-between")}
             >
               {date ? format(date, "PPPP", { locale: ko }) : <span>날짜</span>}
               <CalendarIcon className="size-4" />
@@ -112,13 +102,23 @@ const NewLogPage = () => {
         </Popover>
 
         <Select value={timezoneValue} onValueChange={setTimezoneValue}>
-          <SelectTrigger className="w-[280px]">
-            <SelectValue className="font-medium" placeholder="시간대" />
-          </SelectTrigger>
+          <SelectTriggerTimer className="w-[280px] font-medium">
+            <SelectValue placeholder="시간대" />
+          </SelectTriggerTimer>
           <SelectContent>
-            {timezoneList.map((tz) => (
-              <SelectItem value={tz.value}>{tz.label}</SelectItem>
-            ))}
+            {timezoneList.map((tz) => {
+              const isSelected = timezoneValue === tz.value;
+              return (
+                <SelectItem
+                  value={tz.value}
+                  className={cn(
+                    isSelected && "bg-accent text-accent-foreground"
+                  )}
+                >
+                  {tz.label}
+                </SelectItem>
+              );
+            })}
           </SelectContent>
         </Select>
 
@@ -136,10 +136,7 @@ const NewLogPage = () => {
               variant="outline"
               role="combobox"
               aria-expanded={locationOpen}
-              className={cn(
-                "w-[280px] justify-between",
-                locationValue === "" && "text-muted-foreground"
-              )}
+              className={cn("w-[280px] justify-between")}
             >
               {locationValue
                 ? [...clientData, ...serverData].find(
