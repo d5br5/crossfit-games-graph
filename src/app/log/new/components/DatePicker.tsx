@@ -19,7 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/src/components/ui/form";
-import { FormType } from "../page";
+import { FormType } from "../hooks/useForm";
 
 interface Props {
   form: FormType;

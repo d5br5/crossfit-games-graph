@@ -6,27 +6,14 @@ import DatePicker from "./components/DatePicker";
 import TimeSlot from "./components/TimeSlot";
 import Location from "./components/Location";
 
-import { UseFormReturn, useForm } from "react-hook-form";
-import { Button } from "@/src/components/ui/button";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-
 import { Form } from "@/src/components/ui/form";
-
-const FormSchema = z.object({
-  date: z.date(),
-  timeSlot: z.string(),
-  location: z.string(),
-});
-
-export type FormType = UseFormReturn<z.infer<typeof FormSchema>>;
+import { Button } from "@/src/components/ui/button";
+import { FormDataType, useFormF } from "./hooks/useForm";
 
 const NewLogPage = () => {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-  });
+  const form = useFormF();
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: FormDataType) {
     console.log(data);
   }
 
