@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { FormEvent } from "react";
 import { Button } from "@/src/components/ui/button";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -29,7 +29,6 @@ import {
   SelectTriggerTimer,
   SelectValue,
 } from "@/src/components/ui/select";
-import { useForm } from "react-hook-form";
 
 const serverData = ["dinstorm", "라임라잇"];
 
@@ -44,8 +43,6 @@ const timezoneList = [
 ];
 
 const NewLogPage = () => {
-  const { handleSubmit } = useForm();
-
   // 날짜 데이터
   const [date, setDate] = React.useState<Date>();
 
@@ -67,7 +64,8 @@ const NewLogPage = () => {
   const canSubmit = Boolean(date && timezoneValue && locationValue);
 
   // 등록 버튼 클릭 handler
-  const onSubmit = () => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!canSubmit) return;
     console.log("submit");
     console.log(date, timezoneValue, locationValue);
@@ -80,7 +78,7 @@ const NewLogPage = () => {
   return (
     <div className="max-w-[1200px] w-full px-3">
       {/* <h1>새 운동일지</h1> */}
-      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <Popover>
           <PopoverTrigger asChild>
             <Button
