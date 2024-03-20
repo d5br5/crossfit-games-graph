@@ -2,9 +2,9 @@
 
 import React from "react";
 
-import DatePicker from "./DatePicker";
-import TimeSlot from "./TimeSlot";
-import Location from "./Location";
+import DatePicker from "./components/DatePicker";
+import TimeSlot from "./components/TimeSlot";
+import Location from "./components/Location";
 
 import { UseFormReturn, useForm } from "react-hook-form";
 import { Button } from "@/src/components/ui/button";
@@ -36,8 +36,8 @@ const NewLogPage = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <DatePicker form={form} />
-          <Location form={form} />
           <TimeSlot form={form} />
+          <Location form={form} />
           <div className="border rounded-md py-3 px-6">내용</div>
           <Button type="submit">Submit</Button>
         </form>

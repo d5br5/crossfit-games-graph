@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { UseFormReturn } from "react-hook-form";
 
 import {
   Select,
@@ -17,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/src/components/ui/form";
-import { FormType } from "./page";
+import { FormType } from "../page";
 
 const slotList = [
   { value: "dawn", label: "새벽" },

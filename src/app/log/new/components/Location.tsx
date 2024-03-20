@@ -25,7 +25,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/src/components/ui/form";
-import { FormType } from "./page";
+import { FormType } from "../page";
 
 interface Props {
   form: FormType;

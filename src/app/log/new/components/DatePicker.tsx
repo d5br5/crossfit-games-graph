@@ -1,7 +1,6 @@
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { cn } from "@/lib/utils";
-import { UseFormReturn } from "react-hook-form";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/src/components/ui/calendar";
 import { Button } from "@/src/components/ui/button";
@@ -20,7 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/src/components/ui/form";
-import { FormType } from "./page";
+import { FormType } from "../page";
 
 interface Props {
   form: FormType;
