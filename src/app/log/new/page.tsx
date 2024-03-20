@@ -156,7 +156,15 @@ const NewLogPage = () => {
           </PopoverContent>
         </Popover>
 
-        <Popover open={locationOpen} onOpenChange={setLocationOpen}>
+        <Popover
+          open={locationOpen}
+          onOpenChange={(value) => {
+            // open 상태를 업데이트하고, input 및 hover value를 초기화
+            setLocationOpen(value);
+            setLocationHoverValue(locationValue);
+            setInputValue("");
+          }}
+        >
           <PopoverTrigger asChild>
             <Button
               variant="outline"
