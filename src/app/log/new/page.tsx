@@ -29,6 +29,7 @@ import {
   SelectTriggerTimer,
   SelectValue,
 } from "@/src/components/ui/select";
+import { useForm } from "react-hook-form";
 
 const serverData = ["dinstorm", "라임라잇"];
 
@@ -43,6 +44,8 @@ const timezoneList = [
 ];
 
 const NewLogPage = () => {
+  const { handleSubmit } = useForm();
+
   // 날짜 데이터
   const [date, setDate] = React.useState<Date>();
 
@@ -77,7 +80,7 @@ const NewLogPage = () => {
   return (
     <div className="max-w-[1200px] w-full px-3">
       {/* <h1>새 운동일지</h1> */}
-      <div className="flex flex-col gap-3">
+      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -111,6 +114,7 @@ const NewLogPage = () => {
               return (
                 <SelectItem
                   value={tz.value}
+                  key={tz.value}
                   className={cn(
                     isSelected && "bg-accent text-accent-foreground"
                   )}
@@ -234,12 +238,12 @@ const NewLogPage = () => {
         </Popover>
 
         <div className="border rounded-md py-3 px-6">내용</div>
-      </div>
-      <div className="w-full text-right mt-4">
-        <Button className="right-0" onClick={onSubmit} disabled={!canSubmit}>
-          운동일지 만들기
-        </Button>
-      </div>
+        <div className="w-full text-right mt-4">
+          <Button className="right-0" type="submit" disabled={!canSubmit}>
+            운동일지 만들기
+          </Button>
+        </div>
+      </form>
     </div>
   );
 };
