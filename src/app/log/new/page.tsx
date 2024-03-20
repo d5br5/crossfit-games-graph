@@ -18,34 +18,18 @@ import {
   CommandItem,
   CommandList,
 } from "@/src/components/ui/command";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTriggerTimer,
-  SelectValue,
-} from "@/src/components/ui/select";
 
-import DatePicker from "./Date";
+import DatePicker from "./DatePicker";
+import TimeSlot from "./TimeSlot";
 
 const serverData = ["dinstorm", "라임라잇"];
-
-const timezoneList = [
-  { value: "dawn", label: "새벽" },
-  { value: "morning", label: "아침" },
-  { value: "midday", label: "점심" },
-  { value: "afternoon", label: "오후" },
-  { value: "evening", label: "저녁" },
-  { value: "night", label: "밤" },
-  { value: "midnight", label: "심야" },
-];
 
 const NewLogPage = () => {
   // 날짜 데이터
   const [date, setDate] = React.useState<Date>();
 
   // 시간대 데이터
-  const [timezoneValue, setTimezoneValue] = React.useState("");
+  const [timeSlot, setTimeSlot] = React.useState("");
 
   // 장소 데이터
   const [inputValue, setInputValue] = React.useState("");
@@ -59,14 +43,14 @@ const NewLogPage = () => {
     "limelight5",
   ]);
 
-  const canSubmit = Boolean(date && timezoneValue && locationValue);
+  const canSubmit = Boolean(date && timeSlot && locationValue);
 
   // 등록 버튼 클릭 handler
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!canSubmit) return;
     console.log("submit");
-    console.log(date, timezoneValue, locationValue);
+    console.log(date, timeSlot, locationValue);
   };
 
   const isPrevLocation = [...serverData, ...clientData].some(
@@ -78,28 +62,7 @@ const NewLogPage = () => {
       {/* <h1>새 운동일지</h1> */}
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <DatePicker date={date} setDate={setDate} />
-
-        <Select value={timezoneValue} onValueChange={setTimezoneValue}>
-          <SelectTriggerTimer className="w-[280px] font-medium">
-            <SelectValue placeholder="시간대" />
-          </SelectTriggerTimer>
-          <SelectContent>
-            {timezoneList.map((tz) => {
-              const isSelected = timezoneValue === tz.value;
-              return (
-                <SelectItem
-                  value={tz.value}
-                  key={tz.value}
-                  className={cn(
-                    isSelected && "bg-accent text-accent-foreground"
-                  )}
-                >
-                  {tz.label}
-                </SelectItem>
-              );
-            })}
-          </SelectContent>
-        </Select>
+        <TimeSlot value={timeSlot} setValue={setTimeSlot} />
 
         <Popover
           open={locationOpen}
