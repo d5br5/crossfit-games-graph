@@ -32,6 +32,7 @@ interface Props {
   form: UseFormReturn<
     {
       timeSlot: string;
+      date: Date;
     },
     any,
     undefined

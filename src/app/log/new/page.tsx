@@ -7,6 +7,9 @@ import DatePicker from "./DatePicker";
 import TimeSlot from "./TimeSlot";
 import Location from "./Location";
 
+import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar } from "@/src/components/ui/calendar";
+
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -23,16 +26,16 @@ import {
 } from "@/src/components/ui/form";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTriggerTimer,
-  SelectValue,
-} from "@/src/components/ui/select";
-
-// const serverData = ["dinstorm", "라임라잇"];
+  Popover,
+  PopoverClose,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/src/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 
 const FormSchema = z.object({
+  date: z.date(),
   timeSlot: z.string(),
 });
 
@@ -95,6 +98,7 @@ const NewLogPage = () => {
       </form> */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
+          <DatePicker form={form} />
           <TimeSlot form={form} />
           <Button type="submit">Submit</Button>
         </form>
