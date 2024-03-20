@@ -70,6 +70,8 @@ export default function Location({ form }: Props) {
             onOpenChange={(open) => {
               // open 상태를 업데이트하고, input 및 hover value를 초기화
               setOpen(open);
+              setInputValue("");
+              setHoverValue("");
             }}
           >
             <PopoverTrigger asChild>

@@ -11,7 +11,7 @@ const FormSchema = z.object({
 export type FormDataType = z.infer<typeof FormSchema>;
 export type FormType = UseFormReturn<FormDataType>;
 
-export const useFormF = () => {
+export const useLogForm = () => {
   const form = useForm<FormDataType>({
     resolver: zodResolver(FormSchema),
   });

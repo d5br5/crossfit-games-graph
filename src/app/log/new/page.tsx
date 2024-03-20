@@ -8,10 +8,10 @@ import Location from "./components/Location";
 
 import { Form } from "@/src/components/ui/form";
 import { Button } from "@/src/components/ui/button";
-import { FormDataType, useFormF } from "./hooks/useForm";
+import { FormDataType, useLogForm } from "./hooks/useForm";
 
 const NewLogPage = () => {
-  const form = useFormF();
+  const form = useLogForm();
 
   function onSubmit(data: FormDataType) {
     console.log(data);
