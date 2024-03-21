@@ -18,12 +18,12 @@ export default function LogContent({ form }: Props) {
       control={form.control}
       name="content"
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="flex-1 flex flex-col gap-2">
           <FormLabel>운동 상세 내용</FormLabel>
           <FormControl>
             <Textarea
               placeholder="운동 내용을 입력해주세요"
-              className=""
+              className="resize-none"
               {...field}
             />
           </FormControl>
