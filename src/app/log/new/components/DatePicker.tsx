@@ -1,6 +1,6 @@
+import { FormType } from "../hooks/useForm";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
-import { cn } from "@/lib/utils";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/src/components/ui/calendar";
 import { Button } from "@/src/components/ui/button";
@@ -13,13 +13,10 @@ import {
 
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/src/components/ui/form";
-import { FormType } from "../hooks/useForm";
 
 interface Props {
   form: FormType;
@@ -31,22 +28,19 @@ export default function DatePicker({ form }: Props) {
       control={form.control}
       name="date"
       render={({ field }) => (
-        <FormItem className="flex flex-col">
-          <FormLabel>Date of birth</FormLabel>
+        <FormItem className="flex flex-col gap-2">
+          <FormLabel>운동 날짜</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
                   variant={"outline"}
-                  className={cn(
-                    "w-[240px] pl-3 text-left font-normal",
-                    !field.value && "text-muted-foreground"
-                  )}
+                  className="pl-3 text-left font-normal"
                 >
                   {field.value ? (
                     format(field.value, "PPPP", { locale: ko })
                   ) : (
-                    <span>날짜</span>
+                    <span>날짜를 선택해주세요</span>
                   )}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>
@@ -64,10 +58,6 @@ export default function DatePicker({ form }: Props) {
               />
             </PopoverContent>
           </Popover>
-          <FormDescription>
-            Your date of birth is used to calculate your age.
-          </FormDescription>
-          <FormMessage />
         </FormItem>
       )}
     />

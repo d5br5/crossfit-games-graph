@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { FormType } from "../hooks/useForm";
 
 import {
   Select,
@@ -10,13 +11,10 @@ import {
 
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/src/components/ui/form";
-import { FormType } from "../hooks/useForm";
 
 const slotList = [
   { value: "dawn", label: "새벽" },
@@ -38,12 +36,12 @@ export default function TimeSlot({ form }: Props) {
       control={form.control}
       name="timeSlot"
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>Email</FormLabel>
+        <FormItem className="flex flex-col gap-2">
+          <FormLabel>운동 시간대</FormLabel>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
               <SelectTriggerTimer>
-                <SelectValue placeholder="시간대" />
+                <SelectValue placeholder="시간대를 선택해주세요" />
               </SelectTriggerTimer>
             </FormControl>
             <SelectContent>
@@ -61,10 +59,6 @@ export default function TimeSlot({ form }: Props) {
               ))}
             </SelectContent>
           </Select>
-          <FormDescription>
-            You can manage email addresses in your
-          </FormDescription>
-          <FormMessage />
         </FormItem>
       )}
     />

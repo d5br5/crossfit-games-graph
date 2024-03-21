@@ -21,10 +21,15 @@ const NewLogPage = () => {
     <div className="max-w-[1200px] w-full px-3">
       {/* <h1>새 운동일지</h1> */}
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <DatePicker form={form} />
-          <TimeSlot form={form} />
-          <Location form={form} />
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-8"
+        >
+          <div className="grid md:grid-cols-3 gap-8">
+            <DatePicker form={form} />
+            <TimeSlot form={form} />
+            <Location form={form} />
+          </div>
           <div className="border rounded-md py-3 px-6">내용</div>
           <Button type="submit">Submit</Button>
         </form>
