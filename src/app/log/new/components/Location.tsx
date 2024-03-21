@@ -115,7 +115,7 @@ export default function Location({ form }: Props) {
                   </Button>
                 </FormControl>
               </DialogTrigger>
-              <DialogContent className="p-0">
+              <DialogContent className="p-1">
                 <Command value={hoverValue} onValueChange={setHoverValue}>
                   <CommandList>
                     <CommandInput
