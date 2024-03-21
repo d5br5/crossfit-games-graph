@@ -1,15 +1,11 @@
+import React from "react";
+
 import { cn } from "@/lib/utils";
 import { FormType } from "../hooks/useForm";
-import { Check, Clock3, MapPinned } from "lucide-react";
+import { Check, Clock3 } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTriggerTimer,
-  SelectValue,
-} from "@/src/components/ui/select";
+import { Command, CommandItem, CommandList } from "@/src/components/ui/command";
 
 import {
   FormControl,
@@ -23,15 +19,6 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/src/components/ui/dialog";
-
-import {
-  Command,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/src/components/ui/command";
-import React from "react";
 
 const slotList = [
   { value: "dawn", label: "새벽" },

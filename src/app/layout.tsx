@@ -28,7 +28,7 @@ export default function RootLayout({
         <ThemeProvider>
           <main className="min-h-screen flex flex-col items-center prose dark:prose-invert max-w-none">
             <Header />
-            <div className="flex-1 w-full grid place-items-center">
+            <div className="flex-1 w-full grid place-items-center py-6">
               {children}
             </div>
             <Footer />

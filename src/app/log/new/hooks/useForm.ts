@@ -6,6 +6,7 @@ const FormSchema = z.object({
   date: z.date(),
   timeSlot: z.string(),
   location: z.string(),
+  content: z.string(),
 });
 
 export type FormDataType = z.infer<typeof FormSchema>;
