@@ -74,8 +74,9 @@ export default function Location({ form }: Props) {
                   value={location}
                   key={location}
                   onSelect={() => {
-                    form.setValue("location", location);
                     setOpen(false);
+                    form.clearErrors("location");
+                    form.setValue("location", location);
                   }}
                 >
                   <Check
@@ -110,7 +111,7 @@ export default function Location({ form }: Props) {
                     role="combobox"
                     className="justify-between"
                   >
-                    {field.value || "운동 장소"}
+                    {field.value || "장소를 선택해주세요"}
                     <MapPinned className="size-4" />
                   </Button>
                 </FormControl>
@@ -138,7 +139,7 @@ export default function Location({ form }: Props) {
                           disabled={isLocationNameExists}
                           onSelect={createNewLocation}
                         >
-                          신규 장소 추가 : {inputValue}
+                          신규 추가 : {inputValue}
                         </CommandItem>
                       </CommandGroup>
                     )}

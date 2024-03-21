@@ -77,6 +77,7 @@ export default function TimeSlot({ form }: Props) {
                         className="flex justify-between"
                         onSelect={() => {
                           form.setValue("timeSlot", slot.value);
+                          form.clearErrors("timeSlot");
                           setOpen(false);
                         }}
                       >
