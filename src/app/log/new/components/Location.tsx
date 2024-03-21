@@ -5,10 +5,10 @@ import { Check, MapPinned } from "lucide-react";
 import { FormType } from "../hooks/useForm";
 
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/src/components/ui/popover";
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/src/components/ui/dialog";
 
 import {
   Command,
@@ -94,16 +94,16 @@ export default function Location({ form }: Props) {
         return (
           <FormItem className="flex flex-col gap-2">
             <FormLabel>Language</FormLabel>
-            <Popover
+            <Dialog
               open={open}
               onOpenChange={(open) => {
                 // open 상태를 업데이트하고, input 및 hover value를 초기화
                 setOpen(open);
                 setInputValue("");
-                setHoverValue(hoverValue);
+                setHoverValue(field.value || "");
               }}
             >
-              <PopoverTrigger asChild>
+              <DialogTrigger asChild>
                 <FormControl>
                   <Button
                     variant="outline"
@@ -114,12 +114,12 @@ export default function Location({ form }: Props) {
                     <MapPinned className="ml-2 size-4 shrink-0" />
                   </Button>
                 </FormControl>
-              </PopoverTrigger>
-              <PopoverContent className="p-0">
+              </DialogTrigger>
+              <DialogContent className="p-0">
                 <Command value={hoverValue} onValueChange={setHoverValue}>
                   <CommandList>
                     <CommandInput
-                      placeholder="장소를 선택해주세요"
+                      placeholder="장소 검색 / 신규 추가"
                       value={inputValue}
                       onValueChange={setInputValue}
                     />
@@ -144,8 +144,8 @@ export default function Location({ form }: Props) {
                     )}
                   </CommandList>
                 </Command>
-              </PopoverContent>
-            </Popover>
+              </DialogContent>
+            </Dialog>
           </FormItem>
         );
       }}

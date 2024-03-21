@@ -6,10 +6,11 @@ import { Calendar } from "@/src/components/ui/calendar";
 import { Button } from "@/src/components/ui/button";
 
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/src/components/ui/popover";
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+} from "@/src/components/ui/dialog";
 
 import {
   FormControl,
@@ -30,8 +31,8 @@ export default function DatePicker({ form }: Props) {
       render={({ field }) => (
         <FormItem className="flex flex-col gap-2">
           <FormLabel>운동 날짜</FormLabel>
-          <Popover>
-            <PopoverTrigger asChild>
+          <Dialog>
+            <DialogTrigger asChild>
               <FormControl>
                 <Button
                   variant={"outline"}
@@ -45,8 +46,8 @@ export default function DatePicker({ form }: Props) {
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>
               </FormControl>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            </DialogTrigger>
+            <DialogContent className="w-auto p-0">
               <Calendar
                 mode="single"
                 selected={field.value}
@@ -56,8 +57,13 @@ export default function DatePicker({ form }: Props) {
                 }
                 initialFocus
               />
-            </PopoverContent>
-          </Popover>
+              <DialogClose asChild>
+                <Button size="sm" className="mx-4 mb-4">
+                  날짜 선택 및 닫기
+                </Button>
+              </DialogClose>
+            </DialogContent>
+          </Dialog>
         </FormItem>
       )}
     />
