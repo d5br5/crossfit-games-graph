@@ -35,15 +35,15 @@ export default function DatePicker({ form }: Props) {
             <DialogTrigger asChild>
               <FormControl>
                 <Button
-                  variant={"outline"}
-                  className="pl-3 text-left font-normal"
+                  variant="outline"
+                  className="pl-3 text-left justify-between"
                 >
                   {field.value ? (
                     format(field.value, "PPPP", { locale: ko })
                   ) : (
                     <span>날짜를 선택해주세요</span>
                   )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  <CalendarIcon className="size-4" />
                 </Button>
               </FormControl>
             </DialogTrigger>

@@ -93,7 +93,7 @@ export default function Location({ form }: Props) {
 
         return (
           <FormItem className="flex flex-col gap-2">
-            <FormLabel>Language</FormLabel>
+            <FormLabel>운동 장소</FormLabel>
             <Dialog
               open={open}
               onOpenChange={(open) => {
@@ -111,7 +111,7 @@ export default function Location({ form }: Props) {
                     className="justify-between"
                   >
                     {field.value || "운동 장소"}
-                    <MapPinned className="ml-2 size-4 shrink-0" />
+                    <MapPinned className="size-4" />
                   </Button>
                 </FormControl>
               </DialogTrigger>
