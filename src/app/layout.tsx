@@ -6,8 +6,6 @@ import Footer from "@/src/layouts/footer";
 import { GeistSans } from "geist/font/sans";
 import { Toaster } from "@/src/components/ui/toaster";
 import { ThemeProvider } from "@/src/layouts/theme/Provider";
-import { checkRegister } from "../lib/auth";
-import { redirect } from "next/navigation";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -24,11 +22,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isRegistered = await checkRegister();
-  // if (!isRegistered) {
-  //   redirect("/user/register");
-  // }
-
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">

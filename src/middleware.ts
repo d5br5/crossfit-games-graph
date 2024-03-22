@@ -1,7 +1,17 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/src/utils/supabase/middleware";
+import { checkIsRegistered } from "./lib/auth";
+
+const registerPath = "/user/register";
 
 export async function middleware(request: NextRequest) {
+  // 미등록 회원인 경우 등록 페이지로 redirect
+  const isRegistered = await checkIsRegistered();
+  if (!isRegistered && request.nextUrl.pathname !== registerPath) {
+    const url = new URL(registerPath, request.nextUrl);
+    return NextResponse.redirect(url);
+  }
+
   return await updateSession(request);
 }
 

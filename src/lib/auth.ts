@@ -1,8 +1,7 @@
-import { redirect } from "next/navigation";
 import { useServerUser } from "../hooks/useServerUser";
 import { createClient } from "../utils/supabase/server";
 
-export const checkRegister = async () => {
+export const checkIsRegistered = async () => {
   // 미로그인 유저는 패스
   const user = await useServerUser();
   if (!user) return true;
