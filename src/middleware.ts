@@ -3,13 +3,19 @@ import { updateSession } from "@/src/utils/supabase/middleware";
 import { checkIsRegistered } from "./lib/auth";
 
 const registerPath = "/user/register";
+const userPath = "/user";
 
 export async function middleware(request: NextRequest) {
   // 미등록 회원인 경우 등록 페이지로 redirect
   const isRegistered = await checkIsRegistered();
-  if (!isRegistered && request.nextUrl.pathname !== registerPath) {
-    const url = new URL(registerPath, request.nextUrl);
-    return NextResponse.redirect(url);
+  if (!isRegistered) {
+    const currentPath = request.nextUrl.pathname;
+    const isUserPath = currentPath.startsWith(userPath);
+    // user 관련 페이지는 허용
+    if (!isUserPath) {
+      const url = new URL(registerPath, request.nextUrl);
+      return NextResponse.redirect(url);
+    }
   }
 
   return await updateSession(request);
