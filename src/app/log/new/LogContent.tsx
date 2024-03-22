@@ -1,4 +1,4 @@
-import { FormType } from "../hooks/useForm";
+import { FormType } from "./useForm";
 import { Textarea } from "@/src/components/ui/textarea";
 
 import {

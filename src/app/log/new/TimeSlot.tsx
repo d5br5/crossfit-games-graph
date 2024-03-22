@@ -1,7 +1,7 @@
 import React from "react";
 
 import { cn } from "@/src/lib/utils";
-import { FormType } from "../hooks/useForm";
+import { FormType } from "./useForm";
 import { Check, Clock3 } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 

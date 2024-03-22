@@ -2,14 +2,14 @@
 
 import React from "react";
 
-import DatePicker from "./components/DatePicker";
-import TimeSlot from "./components/TimeSlot";
-import Location from "./components/Location";
+import DatePicker from "./DatePicker";
+import TimeSlot from "./TimeSlot";
+import Location from "./Location";
 
 import { Form } from "@/src/components/ui/form";
 import { Button } from "@/src/components/ui/button";
-import { FormDataType, useLogForm } from "./hooks/useForm";
-import LogContent from "./components/LogContent";
+import { FormDataType, useLogForm } from "./useForm";
+import LogContent from "./LogContent";
 
 const NewLogPage = () => {
   const form = useLogForm();
