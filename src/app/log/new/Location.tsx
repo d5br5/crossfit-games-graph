@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/src/lib/utils";
 import { Button } from "@/src/components/ui/button";
 import { Check, MapPinned } from "lucide-react";
-import { FormType } from "./useForm";
+import { FormType } from "./use-form";
 
 import {
   Dialog,

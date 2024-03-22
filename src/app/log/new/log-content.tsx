@@ -1,4 +1,4 @@
-import { FormType } from "./useForm";
+import { FormType } from "./use-form";
 import { Textarea } from "@/src/components/ui/textarea";
 
 import {
